@@ -5,7 +5,7 @@ import helpers from '../js/helpers';
 
 class Timer extends Component {
     render() {
-        const {title,project,elapsed} = this.props;
+        const {id,title,project,elapsed} = this.props;
         const elapsedString = helpers.renderElapsedString(elapsed);
         return (
             <div className="card mt-2">
@@ -15,8 +15,8 @@ class Timer extends Component {
                     <h2 className="text-center">{elapsedString}</h2>
                     <div className="mb-5">
                         <span className="float-right">
-                           <FontAwesomeIcon className="mr-2" icon={faEdit} title={"Edit Timer"}/>
-                           <FontAwesomeIcon icon={faTrashAlt} title={"Delete Timer"}/>
+                           <FontAwesomeIcon className="mr-2" icon={faEdit} title={"Edit Timer"} onClick={()=>this.props.onEditClick()}/>
+                           <FontAwesomeIcon icon={faTrashAlt} title={"Delete Timer"} onClick={()=>this.props.onDeleteClick(id)}/>
                         </span>
                     </div>
                     <button className="btn btn-outline-primary btn-block">Start</button>

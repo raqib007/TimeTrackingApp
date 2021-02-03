@@ -16,6 +16,8 @@ class EditableTimeList extends Component{
                 runningSince={timer.runningSince}
                 onFormSubmit={this.props.onFormSubmit}
                 onDeleteClick={this.props.onDeleteClick}
+                onStartClick={this.props.onStartClick}
+                onStopClick={this.props.onStopClick}
             />
         ));
 

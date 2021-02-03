@@ -62,6 +62,44 @@ class TimerDashboard extends Component {
         this.setState({timers: this.state.timers.filter(t => t.id !== timerId)});
     }
 
+    handleTimerStart = (timerId) =>{
+        console.log(timerId);
+        this.startTimer(timerId);
+    }
+
+    handleTimerStop = (timerId) =>{
+        console.log(timerId);
+        this.stopTimer(timerId);
+    }
+
+    startTimer = (timerId) =>{
+        const now = Date.now();
+        this.setState({timers:this.state.timers.map(t=>{
+                if(t.id === timerId){
+                    return Object.assign({},t,{
+                        runningSince: now
+                    });
+                }else{
+                    return t;
+                }
+            })});
+    }
+
+    stopTimer = (timerId) =>{
+       const now = Date.now();
+       this.setState({timers: this.state.timers.map(t=>{
+             if(t.id === timerId){
+                 const lastElapsed = now - t.runningSince;
+                 return Object.assign({},t,{
+                     elapsed: t.elapsed + lastElapsed,
+                     runningSince: null
+                 });
+             }else{
+                 return t;
+             }
+           })})
+    }
+
     render() {
         return (
             <div>
@@ -69,6 +107,8 @@ class TimerDashboard extends Component {
                     timers={this.state.timers}
                     onFormSubmit={this.handleEditFormSubmit}
                     onDeleteClick={this.handleDeleteClick}
+                    onStartClick={this.handleTimerStart}
+                    onStopClick={this.handleTimerStop}
                 />
                 <ToggleableTimerForm
                     onFormSubmit={this.handleCreatFormSubmit}/>

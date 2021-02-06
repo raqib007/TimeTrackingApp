@@ -3,26 +3,24 @@ import EditableTimeList from "./EditableTimeList";
 import ToggleableTimerForm from "./ToggleableTimerForm";
 import {v4} from 'uuid';
 import helpers from '../js/helpers';
+import client from "../js/client";
 
 class TimerDashboard extends Component {
 
     state = {
-        timers: [
-            {
-                title: 'Practice squat',
-                project: 'Gym Chores',
-                id: v4(),
-                elapsed: 5456099,
-                runningSince: Date.now(),
-            },
-            {
-                title: 'Bake squash',
-                project: 'Kitchen Chores',
-                id: v4(),
-                elapsed: 1273998,
-                runningSince: null,
-            },
-        ],
+        timers: [],
+    }
+
+    componentDidMount() {
+       this.callTimersFromServer();
+       setInterval(this.callTimersFromServer,5000);
+    }
+
+    callTimersFromServer = () =>{
+        client.getTimers((serverTimers)=>{
+            console.log(serverTimers);
+            this.setState({timers:serverTimers});
+        })
     }
 
     handleEditFormSubmit = (timer) => {
@@ -41,6 +39,7 @@ class TimerDashboard extends Component {
     createTimer = (timer) => {
        const newTimer = helpers.newTimer(timer);
        this.setState({timers:this.state.timers.concat(newTimer)});
+       client.createTimer(newTimer);
     }
 
     updateTimer = (attr) =>{
@@ -56,10 +55,13 @@ class TimerDashboard extends Component {
                 }
             })
         })
+
+        client.updateTimer(attr);
     }
 
     deleteTimer = (timerId) =>{
         this.setState({timers: this.state.timers.filter(t => t.id !== timerId)});
+        client.deleteTimer({id:timerId});
     }
 
     handleTimerStart = (timerId) =>{
@@ -83,6 +85,7 @@ class TimerDashboard extends Component {
                     return t;
                 }
             })});
+        client.startTimer({id:timerId,start:now});
     }
 
     stopTimer = (timerId) =>{
@@ -98,6 +101,7 @@ class TimerDashboard extends Component {
                  return t;
              }
            })})
+        client.stopTimer({id:timerId,stop:now});
     }
 
     render() {

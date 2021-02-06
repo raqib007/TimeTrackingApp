@@ -20,7 +20,7 @@ function findById(array, id, cb) {
   });
 }
 
-const renderElapsedString = (elapsed, runningSince) =>{
+const renderElapsedString = (elapsed, runningSince) => {
   let totalElapsed = elapsed;
   if(runningSince){
     totalElapsed += Date.now() - runningSince;

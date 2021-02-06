@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
-window.client = (function () {
+  const serverPath = 'http://localhost:3000';
+
   function getTimers(success) {
-    return fetch('/api/timers', {
+    return fetch(serverPath+'/api/timers', {
       headers: {
         Accept: 'application/json',
       },
@@ -12,7 +11,7 @@ window.client = (function () {
   }
 
   function createTimer(data) {
-    return fetch('/api/timers', {
+    return fetch(serverPath+'/api/timers', {
       method: 'post',
       body: JSON.stringify(data),
       headers: {
@@ -23,7 +22,7 @@ window.client = (function () {
   }
 
   function updateTimer(data) {
-    return fetch('/api/timers', {
+    return fetch(serverPath+'/api/timers', {
       method: 'put',
       body: JSON.stringify(data),
       headers: {
@@ -34,7 +33,7 @@ window.client = (function () {
   }
 
   function deleteTimer(data) {
-    return fetch('/api/timers', {
+    return fetch(serverPath+'/api/timers', {
       method: 'delete',
       body: JSON.stringify(data),
       headers: {
@@ -45,7 +44,7 @@ window.client = (function () {
   }
 
   function startTimer(data) {
-    return fetch('/api/timers/start', {
+    return fetch(serverPath+'/api/timers/start', {
       method: 'post',
       body: JSON.stringify(data),
       headers: {
@@ -56,7 +55,7 @@ window.client = (function () {
   }
 
   function stopTimer(data) {
-    return fetch('/api/timers/stop', {
+    return fetch(serverPath+'/api/timers/stop', {
       method: 'post',
       body: JSON.stringify(data),
       headers: {
@@ -82,12 +81,13 @@ window.client = (function () {
     return response.json();
   }
 
-  return {
+  const clients = {
     getTimers,
     createTimer,
     updateTimer,
     startTimer,
     stopTimer,
     deleteTimer,
-  };
-}());
+  }
+
+  export default clients;
